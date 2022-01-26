@@ -20,6 +20,7 @@ Route::get('/', function () {
     return view('bemvindo');
 })->name('home');
 
+Route::get('/contatos/datatable', [ContatoController::class, 'datatable'])->name('contatos.datatable');
 Route::resource('contatos', ContatoController::class);
 Route::resource('contatos.telefones', TelefoneController::class);
 Route::resource('contatos.enderecos', EnderecoController::class);

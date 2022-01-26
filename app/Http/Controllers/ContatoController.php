@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Contato;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ContatoController extends Controller
 {
@@ -14,10 +15,20 @@ class ContatoController extends Controller
      */
     public function index()
     {
-        $contatos = Contato::query()
-            ->withCount('telefones', 'enderecos')
-            ->get();
-        return view('contatos.index', compact('contatos'));
+        return view('contatos.index');
+    }
+
+    public function datatable(DataTables $dataTables, Request $request)
+    {
+        $query = Contato::query()
+            ->withCount('telefones', 'enderecos');
+
+        if($request->filled('busca')) {
+            $query->where('nome', 'like', "%{$request->busca}%");
+        }
+
+        return $dataTables->eloquent($query)
+            ->make();
     }
 
     /**
