@@ -23,4 +23,9 @@ class Contato extends Model
     {
         return $this->hasMany(Endereco::class);
     }
+
+    public function grupos()
+    {
+        return $this->belongsToMany(Grupo::class, 'contatos_grupos');
+    }
 }
